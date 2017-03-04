@@ -78,8 +78,208 @@ fs.readdir(folderPath, (err, fileNames) => {
 
 });
 ```
+## 모듈 단위로 만들기
+
+```
+module.js
+//Define Function
+//Export Function
+const fs= require('fs');
+const path = require('path');
+
+module.exports = function(folderPath, getExt, cb){
+    fs.readdir(folderPath, (err, fileNames) => {
+        if(err) {
+            return cb(err, null);
+        }
+        const filtered = fileNames.filter((fileName) => {
+            var ext = path.extname(fileName);
+            if(ext === '.'+getExt) {
+                return true;
+            }else{
+                return false;
+            }
+        });
+        return cb(null, filtered);
+    })
+}
+```
+```
+useModule.js
+//import Function
+//use Function
+const myModule = require('./module.js');
+const folderPath = process.argv[2];
+const getExt = process.argv[3];
+myModule(folderPath, getExt, (err, filteredFileNames) =>{
+    if(err) {
+        return console.log(err);
+    }
+    filteredFileNames.forEach((fileName)=>{
+        console.log(fileName);
+    });
+});
+```
+##HTTP 클라이언트
+```
+const http = require('http');
+const URL = process.argv[2];
+
+http.get(URL,(response) => {
+    response.on('data', (buffer) => {
+       console.log(buffer.toString());
+    });
+});
+```
+##HTTP 모으기
+```
+const http = require('http');
+const URL = process.argv[2];
+
+http.get(URL, (response) =>{
+    var str = '';
+    response.on('data', (buffer)=>{
+        str = str + buffer; //버퍼랑합쳐도 자동으로 toString()합니다
+    });
+    //이벤트가 끝났을때
+    response.on('end', ()=>{
+        console.log(str.length);
+        console.log(str);
+    });
+});
+```
+##ASYNC 다루기
+```
+const http = require('http');
+const urls = process.argv.slice(2); //2번째 이후거 다가져오기 array
+
+var promises = urls.map((url)=>{
+    //resolve 성공, reject 실패
+    return new Promise(function (resolve, reject) {
+       http.get(url,(response) => {
+           var str = '';
+           response.on('data', (buffer)=>{
+               str = str + buffer;
+           });
+           response.on('end', ()=>{
+               resolve(str);    // 리턴이 되는게 resolve임
+           });
+       }).on('error',(err)=>{
+           reject(err);
+       });
+    });
+}); //배열을 반복하면서 새로 리턴되는 값들로 배열을 만든다
+
+Promise.all(promises)   //모든연산이 끝나면
+    .then((array)=>{    //연산을 해
+        array.forEach((val)=>{
+            console.log(val);
+        });
+    });
+```
+##시간서버
+```
+const net = require('net');
+
+const server = net.createServer((socket) => {
+    let date = new Date();
+    let result = formatTime(date);
+    socket.write(result); //값을 보내줄때
+    socket.end();
+});
+
+server.listen(+process.argv[2]); //+를 사용하면 number타입으로 변환해줌
 
 
+function formatTime(date){
+    let year = date.getFullYear();
+    let month = zeroFill(date.getMonth() + 1);     // starts at 0
+    let day = zeroFill(date.getDate());      // returns the day of month
+    let hour = zeroFill(date.getHours());
+    let minute = zeroFill(date.getMinutes());
+
+    let result = `${year}-${month}-${day} ${hour}:${minute}
+`;
+    return result;
+}
+function zeroFill(num) {
+    return (num < 10 ? '0':'') + num;
+}
+```
+##HTTP 파일 서버
+```
+const http = require('http');
+const fs = require('fs');
+
+const port = process.argv[2];
+const filePath = process.argv[3];
+
+const server = http.createServer((request, response)=>{
+    let srcScream = fs.createReadStream(filePath);
+    srcScream.pipe(response);
+});
+server.listen(port);
+```
+##HTTP 대문자로 만드는 서버
+through2-map은 데이터의 덩어리를 받아 데이터의 덩어리를 반환하는 한 개의 함수만으로 변환 스트림을 만들 수 있습니다. 이는 스트림용 Array#map()처럼 설계되었습니다.
+```
+var map = require('through2-map')
+inStream.pipe(map(function (chunk) {
+	return chunk.toString().split('').reverse().join('');
+})).pipe(outStream);
+```
+```
+const http = require('http');
+const map = require('through2-map');
+const port = process.argv[2];
+
+const server = http.createServer((request, response)=>{
+
+    if(request.method === 'POST') {
+        request.pipe(map((chunk)=>{
+           return chunk.toString().toUpperCase();
+        })).pipe(response);
+    }
+});
+server.listen(port);
+```
+## HTTP JSON API 
+```
+const http = require('http');
+const url = require('url');
+const port = process.argv[2];
+
+const server = http.createServer((request, response)=>{
+    const query = url.parse(request.url,true).query;
+    const iso = query.iso;
+
+    let time = new Date(iso);
+    let result;
+    if(/^\/api\/parsetime/.test(request.url)) { //문자열이 /api/parsetime으로 시작 해야함
+        result = getTimeJson(time);
+    }else if(/^\/api\/unixtime/.test(request.url)) {
+        result = getUnixTime(time);
+    }
+    if(result) {
+        response.writeHead(200,{'Content-Type':'application/json'});
+        response.end(JSON.stringify(result));
+    } else {
+        response.writeHead(404);
+        response.end();
+    }
 
 
+});
+server.listen(port);
 
+function getTimeJson(time){
+    return {
+        hour : time.getHours(),
+        minute : time.getMinutes(),
+        second : time.getSeconds()
+    }
+}
+function getUnixTime(time) {
+    return {unixtime : time.getTime()}
+}
+```
