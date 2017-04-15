@@ -28,5 +28,15 @@ public class StringCalculatorTest {
 	public void test_add_쉼표_또는_콜론_구분자() {
 		assertEquals(6, cal.add("1,2:3"));
 	}
+	@Test
+	public void test_add_custom_구분자() {
+		assertEquals(6, cal.add("//;\n1;2;3"));
+	}
+	@Test(expected = RuntimeException.class) // 예외를 기대할때 expected를 사용함. 
+	public void test_add_negative() throws Exception {
+		cal.add("-1,2,3");
+	}
+	
+	
 
 }
