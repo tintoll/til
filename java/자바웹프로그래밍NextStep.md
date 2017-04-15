@@ -64,3 +64,36 @@ public class StringCalculator {
 }
 ```
 
+## 3장
+
+### 개발서버 구축하기
+각 계정별 UTF-8 인코딩 설정
+```
+$ sudo locale-gen ko_KR.EUC-KR ko_KR.UTF-8
+$ sudo dpkg-reconfigure locales
+$ vi .bash_profile
+	LANG="ko_KR.UTF-8"
+	LANGUAGE="ko_KR:ko:en_US:en"
+$ source .bash_profile
+$ env
+```
+### java, Maven 설치
+```
+// 다운로드
+$ wget --header "Cookie: oraclelicense=accept-securebackup-cookie" http://download.oracle.com/otn-pub/java/jdk/8u121-b13/e9e7ea248e2c4826b92b3f075a80e441/jdk-8u121-linux-x64.tar.gz
+// 압축풀기
+$ gunzip jdk-8u121-linux-x64.tar.gz
+$ tar -xvf jdk-8u121-linux-x64.tar
+// 심볼릭링크 걸어주기
+$ ln -s jdk1.8.0_121/ java
+// .bash_profile에 설정해주기
+	export JAVA_HOME=~/java
+	export PATH=$PATH:$JAVA_HOME/bin
+// Maven Downlod
+$ wget http://mirror.navercorp.com/apache/maven/maven-3/3.5.0/binaries/apache-maven-3.5.0-bin.tar.gz
+$ gunzip apache-maven-3.5.0-bin.tar.gz
+$ tar -xvf apache-maven-3.5.0-bin.tar
+$ ln -s apache-maven-3.5.0/ maven
+	export MAVEN_HOME=~/maven
+	export PATH=$PATH:$MAVEN_HOME/bin
+```
