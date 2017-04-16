@@ -97,3 +97,59 @@ $ ln -s apache-maven-3.5.0/ maven
 	export MAVEN_HOME=~/maven
 	export PATH=$PATH:$MAVEN_HOME/bin
 ```
+### git 설치및 웹서버 구동
+```
+$ sudo apt-get install git
+$ git clone https://github.com/tintoll/web-application-server.git
+$ mvn clean package
+$ java -cp target/classes:target/dependency/* webserver.WebServer 8080 &
+```
+방화벽 허용 : (우분투)http://webdir.tistory.com/206
+
+
+### 리눅스에서 개발하려면 알아야할 것들(한상곤-https://youtu.be/JbH-xzD7IkE)
+```
+tail -f log | grep --line-buffered Error > error.txt
+man
+zsh 쉘 사용
+tmux - 백그라운드에 프로그램을 실행시킬수 있게 해주는 프로그램
+upstart, systemd - 시작프로그램 등록 해주는거
+ssh
+scp -  파일복사용
+sftp
+rsyslog - 시스템로그관련
+cron - 반복작업
+vim / emacs - 에디터
+```
+
+### 읽어볼만한 사이트
+https://www.html5rocks.com/en/tutorials/internals/howbrowserswork/ : 브라우저가 일하는 방법에 관련된 튜토리얼
+https://guides.github.com/features/mastering-markdown/ : 마크다운 가이드
+
+### 실습
+```java
+// InputStream에서 한줄씩읽기
+BufferedReader br = new BufferedReader(new InputStreamReader(in, "UTF-8"));
+String line = br.readLine();
+
+// 파일을 읽어 바이트로 가져오는 메서드
+byte[] body = Files.readAllBytes(new File("./webapp"+url).toPath());
+
+// 해당 문자로 시작하는 경우
+String url = "/user/create?ddd=ddd";
+if(url.startsWith("/user/create")){ ... }
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
