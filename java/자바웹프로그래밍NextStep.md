@@ -140,6 +140,18 @@ String url = "/user/create?ddd=ddd";
 if(url.startsWith("/user/create")){ ... }
 ```
 
+### Maven
+// 메이븐 컴파일(테스트파일은 컴파일 되지 않음)
+$ mvn compile
+// 컴파일러 플러그인을 이용하여 컴파일
+$ mvn compiler:compile
+// 테스트 파일 컴파일
+$ mvn test
+// 패키징 작업
+$ mvn package
+
+Effective POM : 부모 POM 설정.
+메이븐은 모든 작업이 플러그인 기반으로 되어있다.
 
 
 
