@@ -50,3 +50,12 @@ Git은 3가지의 영역을 가지고 있다.
 **git config color.ui true** : 콘솔에서 git output을 컬러로 출력하기
 **git config format.pretty oneline** : 이력(log)에서 확정본 1개를 딱 한 줄로만 표시하기
 **git add -i** : 파일을 추가할 때 대화식으로 추가하기
+
+
+## 추가 내용
+
+- 개발브랜치(dev-test)가 원격에 까지 올라간상태에서 master로 돌리고 싶을 경우
+**git reset --hard master** : 로컬에 있는 현재 dev-test를 master로 reset 해준다.
+**git push -f origin dev-test** : 원격에 있는 dev-test를 현재 있는 값으로 강제로 push 해준다.
+- master의 커밋 내용을 개발브랜치로 가져올때
+**git rebase {가져올 Branch 이름}** : 대상 Branch의 변경 사항을 모두 가져와서 현재 Branch에 반영하려 할 때 다음과 같은 명령어를 사용합니다.
