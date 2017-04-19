@@ -141,6 +141,7 @@ if(url.startsWith("/user/create")){ ... }
 ```
 
 ### Maven
+```
 // 메이븐 컴파일(테스트파일은 컴파일 되지 않음)
 $ mvn compile
 // 컴파일러 플러그인을 이용하여 컴파일
@@ -149,12 +150,93 @@ $ mvn compiler:compile
 $ mvn test
 // 패키징 작업
 $ mvn package
+// 모든 파일 초기화
+$ mvn clean
 
+// eclipse플러그인에 eclipse 골을 입력
+// pom.xml을 읽어서 프로젝트를 재구성해준다.
+$ eclipse:eclipse
+// 기존 eclipse 설정을 제거해준다.
+$ eclipse:clean
+```
 Effective POM : 부모 POM 설정.
 메이븐은 모든 작업이 플러그인 기반으로 되어있다.
 
+메이븐 Phase 설명 (http://demon92.tistory.com/14)
 
+기본 페이즈 순서
+complie -> test -> package -> install(로컬에 저장) -> deploy(원격저장소에 저장)
 
+```xml
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-eclipse-plugin</artifactId>
+				<version>2.9</version>
+				<configuration>
+					<downloadSources>true</downloadSources> <!-- 소스코드 볼수있도록 설정 -->
+					<!-- 컨텍스트 설정 -->
+                    <wtpversion>2.0</wtpversion>
+					<wtpContextName>/</wtpContextName>
+				</configuration>
+			</plugin>
+```
+### 로깅
+```java
+System.out.println("debug message");
+```
+위와같이 프로그램이 실행할때마다 디버깅메시지가 출력되면 프로그램의 성능을 떨어뜨린다. 그래서 개발중 추가한 디버깅 메시지는 실 서비스하는 시점에 제거해야한다.
+로깅(logging) 프레임워크를 활용해 디버깅 메시지를 레벨화해주면 위와같은 문제를 해결해 줄 수 있다.
+종류 : Log4j, Slf4j, LogBack
+
+로그레벨 : DEBUG < INFO < WARN < ERROR
+DEBUG 레벨이면 상위 단계가 다 출력된다.
+
+프로젝트에 LogBack 설정
+```xml
+<!-- src/main/resources/logback.xml -->
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+  <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+    <!-- encoders are assigned the type
+         ch.qos.logback.classic.encoder.PatternLayoutEncoder by default -->
+    <encoder>
+      <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+    </encoder>
+  </appender>
+
+  <root level="debug">
+    <appender-ref ref="STDOUT" />
+  </root>
+</configuration>
+```
+```java
+
+package hello;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+public class HelloWord {
+
+	static final Logger logger = LoggerFactory.getLogger(HelloWord.class);
+
+	public String message() {
+		logger.debug("Did it again!");
+
+        String user = "ddd";
+        logger.debug("User : "+user); // 로그레벨이 INFO여도 안의 문장은 실행됨.
+        logger.debug("User : {}", user); // 로그레벨이 INFO이면 안의 문장은 실행안됨.(이 방법을 사용해야함)
+		return "say hello";
+	}
+
+}
+
+```
+java에서 매번 logger를 만들기 귀찮으니 eclipse의 templete 기능을 등록하여 사용하면 쉽게 쓸수있다.
+```
+${:import(org.slf4j.Logger,org.slf4j.LoggerFactory)}
+private static final Logger logger = LoggerFactory.getLogger(${enclosing_type}.class);
+```
 
 
 
