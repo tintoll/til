@@ -59,3 +59,6 @@ Git은 3가지의 영역을 가지고 있다.
 **git push -f origin dev-test** : 원격에 있는 dev-test를 현재 있는 값으로 강제로 push 해준다.
 - master의 커밋 내용을 개발브랜치로 가져올때
 **git rebase {가져올 Branch 이름}** : 대상 Branch의 변경 사항을 모두 가져와서 현재 Branch에 반영하려 할 때 다음과 같은 명령어를 사용합니다.
+**git branch -a**: 모든 브랜치를 확인할수있다
+**git branch -vv**: 로컬 브랜치와 원격브랜치가 연결된 상태를 확인할수있다
+**git checkout -b newbranch origin/newbranch** : 새로운 브랜치를 만들면서 원격에서 가져오기 
