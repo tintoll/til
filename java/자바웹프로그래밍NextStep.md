@@ -237,12 +237,20 @@ java에서 매번 logger를 만들기 귀찮으니 eclipse의 templete 기능을
 ${:import(org.slf4j.Logger,org.slf4j.LoggerFactory)}
 private static final Logger logger = LoggerFactory.getLogger(${enclosing_type}.class);
 ```
+## 4장
 
+### HTTP
+일단 아래 url에서 기본적인 내용만 봄.
+https://www3.ntu.edu.sg/home/ehchua/programming/webprogramming/HTTP_Basics.html
 
-
-
-
-
+-HTTP  관련 책-
+1단계 - 프로가 되기 위한 웹 기술 입문(HTTP 내용보기)
+2단계 - HTTP & Network : 그림으로 배우는 책으로 학습
+3단계 - HTTP 완벽 가이드
+### 네트워크
+아래의 책들 볼것을 추천함.
+1단계 - 성공과 실패를 결정하는 1%의 네트워크 원리
+2단계 - 그림으로 공부하는IT 인프라 구조
 
 
 
