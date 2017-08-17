@@ -42,3 +42,8 @@
 3. HTML로 페이지를 렌더링
 
 ※ 함수의 각 스텝들이 함수 이름이 갖는 추상화 수준보다 한 단계 낮은 것으로만 이뤄졌다면 함수는 한가지 일만 하는 것이다. 
+
+
+print-prime 리팩토링 : https://github.com/msbaek/print-prime
+
+※ Fitness 예제나 print-prime 예제를 계속 리팩토링 연습을 해보면서 구조를 함수를 더 작게 나누고 추상화를 하는 방법을 익혀야 한다. 
