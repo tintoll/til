@@ -42,3 +42,68 @@
 - 실습URL : https://github.com/msbaek/videostore
 
 
+## Temporal Coupling
+- 함수들이 순서들을 지키면 호출되어야 한다. 
+
+예) open, execute, close 순서로
+<img src="./images/temporalCoupling_1.png" />
+<img src="./images/temporalCoupling_2.png" />
+
+## CQS
+- 상태를 변경하는 함수는 값을 반환하면 안된다.(Command)
+- 값을 반환하는 함수는 상태를 변경하면 안된다.(Query)
+
+```java
+User u = auth.logn(id,pwd);
+
+auth.logn(id, pwd); // Command
+User u = auth.getUser(userName); // Query
+```
+
+## Tell Don't Ask
+- 데이터를 물어보지 않고, 기능을 실행해 달라고 말하라
+-  기능 실행을 요청하는 방식으로 코드를 작성하는 버릇을 들여야 한다.
+
+## Law of Demeter
+- 함수가 시스템 전체를 알게해서는 안된다. 
+- 개별 함수는 아주 제한된 지식만 가져야 한다. 
+```java
+o.getX()
+	.getY()
+		.getZ()
+			.doSomeThing();
+// 위와 같으면 의존을 너무 가지기 때문에 함수를 여러개 만들어야한다.
+
+doSomeThing() {
+	getZ();	
+}
+getZ() {
+	getY();
+}
+getY() {
+	getX();
+}			
+```
+
+## early returns
+- 빨리 리턴시켜주는 것이 좋다. if-else 일 경우 if조건이 else보다 간단해야 한다. 
+```java
+private boolean nameInValue(name) {
+	 if(name.equals("")) {
+			return true;
+	 }else {
+			....
+			return false;
+	 }
+	 return false
+}
+```
+
+## Error handlering, Special Case
+
+예제 : https://github.com/msbaek/stack-example
+
+## 널은 에러가 아니다, 널이 값일 경우도 있다.
+
+## try도 하나의 역할/기능이다.
+- try에도 하나의 함수만 들어가야한다. 여러개가 들어가면 구조화가 잘못된 것이다. 
