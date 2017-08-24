@@ -17,3 +17,8 @@
 
 ## 실습 
 
+볼링게임 : https://github.com/msbaek/bowling-game
+
+소인수 : https://github.com/msbaek/primefactors
+
+wordwrap : https://github.com/msbaek/wordwrap
