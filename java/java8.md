@@ -15,6 +15,8 @@ https://medium.com/@lazysoul/functional-programming-%EC%97%90%EC%84%9C-1%EA%B8%8
 - 다른언어의 Function에 해당하는 Java의 Method는 1급객체가 아니다. Java에서는 First Class Citizen을 지원을 못하고 First Class Function을 지원한다. java8부터 지원.
 
 
+### Stream
 
+- Stream : lazy collection builder
 
 
