@@ -23,70 +23,67 @@ https://medium.com/@lazysoul/functional-programming-%EC%97%90%EC%84%9C-1%EA%B8%8
 1. Function : 하나의 인자와 리턴타입을 가지며 그걸 제네릭으로 지정해줄수있다. 그래서 타입파라미터(Type Parameter)가 2개다.
 ```java
 Function<String, Integer> toInt = new Function<String, Integer>() {
-            @Override
-            public Integer apply(String s) {
-                return Integer.parseInt(s);
-            }
-        };
+	@Override
+    public Integer apply(String s) {
+    	return Integer.parseInt(s);
+    }
+};
 
-        // 람다 표현식으로 변경하면
-        Function<String, Integer> toInt2 = (s) -> Integer.parseInt(s);
-
-        System.out.println(toInt.apply("100"));
-        System.out.println(toInt2.apply("100"));
+// 람다 표현식으로 변경하면
+Function<String, Integer> toInt2 = (s) -> Integer.parseInt(s);
+System.out.println(toInt.apply("100"));
+System.out.println(toInt2.apply("100"));
 ```
 
 2. Consumer : 리턴을 하지않고(void), 인자를 받는 메서드를 갖고있다. 인자를 받아 소모한다는 뜻으로 인터페이스 명칭을 이해하면 될듯 하다.
 ```java
 Consumer<String> greetings = new Consumer<String>() {
-            @Override
-            public void accept(String s) {
-                System.out.println("Hello "+s);
-            }
-        };
-        // 람다 표현식으로 변경하면
-        Consumer<String> greetings2 = (s) -> System.out.println("Hi "+s);
-        greetings.accept("World!");
-        greetings2.accept("tintoll");
+	@Override
+    public void accept(String s) {
+    	System.out.println("Hello "+s);
+    }
+};
+// 람다 표현식으로 변경하면
+Consumer<String> greetings2 = (s) -> System.out.println("Hi "+s);
+greetings.accept("World!");
+greetings2.accept("tintoll");
 ```
 
 3. Predicate : 하나의 인자와 리턴타입을 가진다. Function과 비슷해보이지만 리턴타입을 지정하는 타입파라미터가 안보인다. 반환타입은 boolean 타입으로 고정되어있다.
 ```java
 Predicate<Integer> isPositive = i -> i > 0;
-
-        System.out.println(isPositive.test(1));
-        System.out.println(isPositive.test(-1));
-        final List<Integer> numbers = Arrays.asList(-5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5);
-
-        final List<Integer> positiveNumbers = new ArrayList<>();
-        for (final Integer num : numbers) {
-            if (isPositive.test(num)) {
-                positiveNumbers.add(num);
-            }
+System.out.println(isPositive.test(1));
+System.out.println(isPositive.test(-1));
+final List<Integer> numbers = Arrays.asList(-5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5);
+final List<Integer> positiveNumbers = new ArrayList<>();
+for (final Integer num : numbers) {
+	if (isPositive.test(num)) {
+    	positiveNumbers.add(num);
+	}
+}
+System.out.println("positive integers: " + positiveNumbers);
+final Predicate<Integer> lessThan3 = i -> i < 3;
+final List<Integer> numbersLessThan3 = new ArrayList<>();
+	for (final Integer num : numbers) {
+		if (lessThan3.test(num)) {
+        	numbersLessThan3.add(num);
         }
-        System.out.println("positive integers: " + positiveNumbers);
-        final Predicate<Integer> lessThan3 = i -> i < 3;
-        final List<Integer> numbersLessThan3 = new ArrayList<>();
-        for (final Integer num : numbers) {
-            if (lessThan3.test(num)) {
-                numbersLessThan3.add(num);
-            }
-        }
-        System.out.println("less than 3: " + numbersLessThan3);
-        System.out.println("positive integers: " + filter(numbers, isPositive));
-        System.out.println("less than 3: " + filter(numbers, lessThan3));
+}
+System.out.println("less than 3: " + numbersLessThan3);
+System.out.println("positive integers: " + filter(numbers, isPositive));
+System.out.println("less than 3: " + filter(numbers, lessThan3));
 ```
 
 4. Supplier : 인자는 받지않으며 리턴타입만 존재하는 메서드를 갖고있다. 순수함수에서 결과를 바꾸는건 오직 인풋(input) 뿐이다. 그런데 인풋이 없다는건 내부에서 랜덤함수같은것을 쓰는게 아닌이상 항상 같은 것을 리턴하는 메서드라는걸 알 수 있다.
 ```java
 Supplier<String> valueSupplier = () -> "Hello";
-        System.out.println(valueSupplier.get());
+System.out.println(valueSupplier.get());
 
-        System.out.println("\nSupplier 사용하지 않고 시간 오래 걸리는 메소드 호출");
-        callingExpensiveMethodWithoutSupplier();
+System.out.println("\nSupplier 사용하지 않고 시간 오래 걸리는 메소드 호출");
+callingExpensiveMethodWithoutSupplier();
 
-        System.out.println("\nSupplier 사용해서 시간 오래 걸리는 메소드 호출");
-        callingExpensiveMethodWithSupplier();
+System.out.println("\nSupplier 사용해서 시간 오래 걸리는 메소드 호출");
+callingExpensiveMethodWithSupplier();
 ```
 
 - 더많은 FunctionInterface는 URL 참조 : http://multifrontgarden.tistory.com/125
