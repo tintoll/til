@@ -54,17 +54,16 @@ Slack Plug-in : https://github.com/scouter-project/scouter-plugin-server-alert-s
 ### 기존적으로 제공하는 알림
 
 1. CPU관련 알림 설정 옵션들(agent.host/conf/scouter.conf  추가)
-   	cpu_alert_enabled : cpu 알림을 활성화하거나 비활성화 합니다.(기본 : true)
-   	cpu_warnig_pct : cpu waring 레벨 알림의 퍼센트입니다.(정수로 설정)
-   	cpu_fatal_pct : cpu fatal 레벨 알림의 퍼센트입니다.(정수로 설정)
-   	cpu_check_period_ms : 어느 기간동안 cpu를 체크할지를 지정합니다.
-   	cpu_waring_history, cpu_fatal_history : 각 레벨에 설정한 값의 초과가 몇회 발생하였을때 알림을 알릴지를 설정합니다.
-   	예를 들어 cpu_fatal_pct가 90%이고 cpu_check_period_ms가 5분(300000ms), cpu_fatal_history가 3이라면 CPU가 최근 5분간 90%를 3회 넘는 경우 알림을 발송하게 됩니다.
-   	cpu_alert_interval_ms : 설정 시간동안 동일한 알림을 발송하지 않습니다.
+    - cpu_alert_enabled : cpu 알림을 활성화하거나 비활성화 합니다.(기본 : true)
+    - cpu_warnig_pct : cpu waring 레벨 알림의 퍼센트입니다.(정수로 설정)
+    - cpu_fatal_pct : cpu fatal 레벨 알림의 퍼센트입니다.(정수로 설정)
+    - cpu_check_period_ms : 어느 기간동안 cpu를 체크할지를 지정합니다.
+    - cpu_waring_history, cpu_fatal_history : 각 레벨에 설정한 값의 초과가 몇회 발생하였을때 알림을 알릴지를 설정합니다. 예를 들어 cpu_fatal_pct가 90%이고 cpu_check_period_ms가 5분(300000ms), cpu_fatal_history가 3이라면 CPU가 최근 5분간 90%를 3회 넘는 경우 알림을 발송하게 됩니다.
+         	cpu_alert_interval_ms : 설정 시간동안 동일한 알림을 발송하지 않습니다.
 2. Disk 사용량 알림 설정 옵션 (agent.host/conf/scouter.conf 추가)
-   	disk_alert_enabled=true
-   	disk_warning_pct=70
-   	disk_fatal_pct=90
+    - disk_alert_enabled=true
+    - disk_warning_pct=70
+    - disk_fatal_pct=90
 
 
 
